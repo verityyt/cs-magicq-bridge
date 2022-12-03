@@ -1,5 +1,7 @@
 package utils
 
+import Hotkey
+import Link
 import com.google.gson.GsonBuilder
 import java.io.File
 
@@ -24,7 +26,8 @@ object Configuration {
     private fun createFileFromDefault() {
         Logger.warn("Creating config file from default...")
 
-        val defaultConfig = Config(false, false, true)
+        val exampleLink = Link(0, 1, Hotkey(123, true, true, true), 123, 456, 789)
+        val defaultConfig = Config(false, false, true, listOf(exampleLink))
         val jsonString = gson.toJson(defaultConfig)
 
         file.writeText(jsonString)
@@ -36,7 +39,7 @@ object Configuration {
         try {
             config = gson.fromJson(file.readText(), Config::class.java)
             Logger.info("Configuration successfully read!")
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Logger.error("Error while reading configuration (${e.message})")
         }
 

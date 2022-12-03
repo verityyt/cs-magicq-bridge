@@ -13,11 +13,16 @@ object CSMagicQBridge {
         Configuration.initialize()
         Logger.configure()
 
-        for (link in activeLinks) {
-            activeUniverses.add(link.universe)
+        Logger.debug("Importing links from configuration...")
+        for (link in Configuration.config.links) {
+            activeLinks.add(link)
+
+            if (!activeUniverses.contains(link.universe)) {
+                activeUniverses.add(link.universe)
+            }
         }
 
-        Logger.info("Found: ${activeLinks.size} links on ${activeUniverses.size} universes!")
+        Logger.info("Imported: ${activeLinks.size} links on ${activeUniverses.size} universes!")
 
         ColorSourceListener.startListening(activeUniverses.toIntArray())
     }
