@@ -26,7 +26,7 @@ object Logger {
     }
 
     fun warn(msg: String) {
-        println("$grey[${getFormattedTime()}]: [${orange}WARN$grey] $reset$msg")
+        println("$grey[${getFormattedTime()}]: [${orange}WARNING$grey] $reset$msg")
     }
 
     fun error(msg: String) {
