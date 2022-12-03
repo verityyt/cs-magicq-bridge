@@ -7,8 +7,15 @@ class Link(
     private var rangeEnd: Int? = null
 ) {
 
+    /**
+     * Whether the link is currently active or not
+     */
     var active: Boolean = false
 
+    /**
+     * @param dataPackage [DataPackage] which contains the newest art-net data
+     * @return true If link requirements are fulfilled
+     */
     fun checkLink(dataPackage: DataPackage): Boolean {
         if (universe == dataPackage.universe) {
             val data = dataPackage.data[channel - 1]

@@ -3,7 +3,14 @@ import utils.Logger
 
 object CSMagicQBridge {
 
+    /**
+     * List of all links (imported via [Configuration])
+     */
     var activeLinks: MutableList<Link> = mutableListOf()
+
+    /**
+     * List of all universes used in [activeLinks]
+     */
     private var activeUniverses: MutableList<Int> = mutableListOf()
 
     @JvmStatic

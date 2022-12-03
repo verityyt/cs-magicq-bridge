@@ -6,9 +6,20 @@ import utils.Logger
 
 object ColorSourceListener {
 
+    /**
+     * [ArtNetBuffer]
+     */
     private val artNetBuffer = ArtNetBuffer()
+
+    /**
+     * [ArtNetClient]
+     */
     private val artNetClient = ArtNetClient(artNetBuffer)
 
+    /**
+     * Method starts [ArtNetClient] and adds [ArtNetServerEventAdapter] listener (for art-net listening)
+     * @param universes List of all universes which should be listened to
+     */
     fun startListening(universes: IntArray) {
         Logger.debug("Starting art-net client and adding listener...")
         Logger.debug("Listening on following universe(s): ${universes.joinToString()}")
