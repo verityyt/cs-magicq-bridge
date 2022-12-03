@@ -5,9 +5,9 @@ import java.util.*
 
 object Logger {
 
-    private val enableDebug = true
-    private val enableArtNet = false
-    private val enableLogic = true
+    private var enableDebug = true
+    private var enableArtNet = true
+    private var enableLogic = true
 
     private fun getFormattedTime() =  SimpleDateFormat("HH:mm:ss").format(Date())
 
@@ -20,6 +20,12 @@ object Logger {
     private const val green = "\u001B[32m"
     private const val purple = "\u001B[35m"
     private const val yellow = "\u001B[33m"
+
+    fun configure() {
+        enableDebug = Configuration.config.enableDebugLogs
+        enableArtNet = Configuration.config.enableArtNetLogs
+        enableLogic = Configuration.config.enableLogicLogs
+    }
 
     fun info(msg: String) {
         println("$grey[${getFormattedTime()}]: [${green}INFO$grey] $reset$msg")

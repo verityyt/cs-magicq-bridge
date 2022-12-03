@@ -1,5 +1,5 @@
+import utils.Configuration
 import utils.Logger
-import java.awt.event.KeyEvent
 
 object CSMagicQBridge {
 
@@ -9,10 +9,9 @@ object CSMagicQBridge {
     @JvmStatic
     fun main(args: Array<String>) {
         Logger.info("Starting system...")
-        Logger.debug("Initializing links...")
 
-        activeLinks.add(Link(0, 1, Hotkey(KeyEvent.VK_H, true, true, true), exactValue = 255))
-        activeLinks.add(Link(1, 1, Hotkey(KeyEvent.VK_H, true, true, true), exactValue = 255))
+        Configuration.initialize()
+        Logger.configure()
 
         for (link in activeLinks) {
             activeUniverses.add(link.universe)
