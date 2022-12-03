@@ -22,7 +22,7 @@ object CSMagicQBridge {
             }
         }
 
-        Logger.info("Imported: ${activeLinks.size} links on ${activeUniverses.size} universes!")
+        Logger.info("Imported ${activeLinks.size} link(s) on ${activeUniverses.size} universe(s)!")
 
         ColorSourceListener.startListening(activeUniverses.toIntArray())
     }
