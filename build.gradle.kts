@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("ch.bildspur:artnet4j:0.6.2")
+    implementation("com.google.code.gson:gson:2.10")
 }
 
 tasks.test {
