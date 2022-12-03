@@ -46,8 +46,9 @@ object ColorSourceListener {
      * Handles encoded data
      * @param data Encoded data as [IntArray]
      */
-    private fun handleEncodedData(data: IntArray, universes: Int) {
-        println("[UNIVERSE $universes]: Decoded - ${data.joinToString()}")
+    private fun handleEncodedData(data: IntArray, universe: Int) {
+        println("[UNIVERSE $universe]: Decoded - ${data.joinToString()}")
+        Logic.handleCSInput(DataPackage(data, universe))
     }
 
 }
