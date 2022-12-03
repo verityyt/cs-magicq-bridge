@@ -2,6 +2,7 @@ import ch.bildspur.artnet.ArtNetBuffer
 import ch.bildspur.artnet.ArtNetClient
 import ch.bildspur.artnet.events.ArtNetServerEventAdapter
 import ch.bildspur.artnet.packets.ArtNetPacket
+import utils.Logger
 
 object ColorSourceListener {
 
@@ -9,6 +10,9 @@ object ColorSourceListener {
     private val artNetClient = ArtNetClient(artNetBuffer)
 
     fun startListening(universes: IntArray) {
+        Logger.debug("Starting art-net client and adding listener...")
+        Logger.debug("Listening on following universe(s): ${universes.joinToString()}")
+
         artNetClient.artNetServer.addListener(object : ArtNetServerEventAdapter() {
             override fun artNetPacketReceived(packet: ArtNetPacket?) {
                 if (packet !== null) {
@@ -16,12 +20,17 @@ object ColorSourceListener {
                         handleIncomingPacketsOfUniverse(packet, universe)
                     }
                 } else {
-                    println("[WARNING]: Received packet is null")
+                    Logger.warn("Received packet is null")
                 }
             }
         })
 
-        artNetClient.start()
+        try {
+            artNetClient.start()
+            Logger.info("Art-Net client successfully started!")
+        }catch (e: Exception) {
+            Logger.error("Error while starting art-net client (${e.message})")
+        }
     }
 
     /**
@@ -30,7 +39,8 @@ object ColorSourceListener {
      * @param universe The universe to handle
      */
     private fun handleIncomingPacketsOfUniverse(packet: ArtNetPacket, universe: Int) {
-        println("[UNIVERSE $universe]: New packet received - ${packet.data}")
+        Logger.artNet("Received new ${packet.type} packet on universe $universe")
+        Logger.artNet("[DEBUG]: Decoding new packet...")
 
         val encodedData: ByteArray = artNetClient.readDmxData(0, universe)
         val decodedData: MutableList<Int> = mutableListOf()
@@ -47,7 +57,7 @@ object ColorSourceListener {
      * @param data Encoded data as [IntArray]
      */
     private fun handleEncodedData(data: IntArray, universe: Int) {
-        println("[UNIVERSE $universe]: Decoded - ${data.joinToString()}")
+        Logger.artNet("[DEBUG]: Sending data package to logic...")
         Logic.handleCSInput(DataPackage(data, universe))
     }
 

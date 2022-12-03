@@ -1,3 +1,4 @@
+import utils.Logger
 import java.awt.event.KeyEvent
 
 object CSMagicQBridge {
@@ -7,15 +8,19 @@ object CSMagicQBridge {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println("Starting...")
+        Logger.info("Starting system...")
+        Logger.debug("Initializing links...")
+
+        activeLinks.add(Link(0, 1, Hotkey(KeyEvent.VK_H, true, true, true), exactValue = 255))
+        activeLinks.add(Link(1, 1, Hotkey(KeyEvent.VK_H, true, true, true), exactValue = 255))
 
         for (link in activeLinks) {
             activeUniverses.add(link.universe)
         }
 
-        ColorSourceListener.startListening(activeUniverses.toIntArray())
+        Logger.info("Found: ${activeLinks.size} links on ${activeUniverses.size} universes!")
 
-        println("Started!")
+        ColorSourceListener.startListening(activeUniverses.toIntArray())
     }
 
 }
