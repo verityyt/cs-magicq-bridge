@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.DuplicateFormatFlagsException
 
 plugins {
     java
@@ -23,5 +24,43 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
+}
+
+configure<JavaPluginConvention> {
+    sourceCompatibility = JavaVersion.VERSION_15
+}
+
+tasks {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "17"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "17"
+    }
+    jar {
+        archiveName = "CSMagicQBridge.jar"
+
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        from(sourceSets.main.get().output)
+        dependsOn(configurations.runtimeClasspath)
+
+        from({
+            configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+        })
+
+        manifest {
+            attributes["Main-Class"] = "CSMagicQBridge"
+        }
+
+        exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
+    }
+}
+
+tasks.register("export") {
+    group = "build"
+    description = "Exports the project as jar file"
+
+    dependsOn("jar")
 }
